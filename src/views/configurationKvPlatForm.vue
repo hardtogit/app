@@ -16,6 +16,7 @@
                         border
                         :data="tableData"
                         stripe
+                        size="mini"
                         style="width: 100%">
                     <el-table-column
                             prop="config_key"

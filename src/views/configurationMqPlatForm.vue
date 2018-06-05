@@ -11,7 +11,7 @@
             </el-col>
         </el-row>
         <el-row class="table">
-            <el-col :span="18">
+            <el-col >
                 <el-table
                         border
                         :data="tableData"
@@ -19,25 +19,31 @@
                         size="mini"
                         style="width: 100%">
                     <el-table-column
-                            prop="config_key"
-                            label="键"
+                            prop="event_key"
+                            label="事件名称"
                             width="180">
                     </el-table-column>
                     <el-table-column
-                            prop="config_value"
-                            label="值">
+                            prop="queue_key"
+                            label="队列名称">
                     </el-table-column>
                     <el-table-column
-                            prop="config_remark"
+                            prop="receive_fun"
+                            label="回调函数">
+                    </el-table-column>
+                    <el-table-column
+                            prop="broadcast"
+                            label="是否广播"
+                            width="100"
+                            :formatter="formatter"
+                    >
+                    </el-table-column>
+                    <el-table-column
+                            prop="remark"
                             label="备注">
                     </el-table-column>
+
                 </el-table>
-                <el-pagination
-                        :page-size="20"
-                        :pager-count="11"
-                        layout="prev, pager, next"
-                        :total="1000">
-                </el-pagination>
             </el-col>
         </el-row>
     </div>
@@ -57,11 +63,18 @@
         methods:{
             handleSearch:function(){
 
+            },
+            formatter:function(a,b,c,d){
+                if(c==0){
+                    return "不广播"
+                }else{
+                    return "广播"
+                }
             }
         },
         mounted(){
             let $this=this;
-            Fetch.configurationKvList().then(function(response){
+            Fetch.configurationMqPlatFormList().then(function(response){
                 $this.tableData=response.response
             });
         }
